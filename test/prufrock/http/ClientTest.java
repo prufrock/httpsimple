@@ -1,6 +1,5 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * A general test to ensure the methods still do what's expected of them.
  */
 package prufrock.http;
 
@@ -51,7 +50,7 @@ public class ClientTest {
         assertEquals(expResult, result);
         assertEquals(expStatusCode, result.getResponse().getStatusCode());
         assertEquals(expContentLength
-            , result.getResponse().getResponseHeaders().get("Content-Length"));
+            , result.getResponse().getHeaders().get("Content-Length"));
     }
 
     /**

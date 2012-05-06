@@ -1,6 +1,5 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * The face of the operation. Instantiate this little guy to get things going.
  */
 package prufrock.http;
 

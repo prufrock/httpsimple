@@ -1,6 +1,5 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Holds all of the response details.
  */
 package prufrock.http;
 import java.util.Hashtable;
@@ -10,8 +9,17 @@ import java.util.Hashtable;
  */
 public class Response 
 {
+    public static final String CONNECTION        = "Connection";
+    public static final String CONTENTENCODING  = "Content-Encoding";
+    public static final String CONTENTLENGTH    = "Content-Length";
+    public static final String CONTENTTYPE       = "Content-Type";
+    public static final String DATE              = "Date";
+    public static final String LASTMODIFIED      = "Last-Modified";
+    public static final String SERVER            = "Server";
+    public static final String VARY              = "Vary";
+    
     private int statusCode;
-    private Hashtable<String, String> responseHeaders;
+    private Hashtable<String, String> headers;
     private String body;
     
     public Response()
@@ -24,19 +32,19 @@ public class Response
         , Hashtable<String, String> responseHeaders, String body)
     {
         this.statusCode = statusCode;
-        this.responseHeaders = responseHeaders;
+        this.headers = responseHeaders;
         this.body = body;
     }
     
-    public Response setResponseHeaders(Hashtable<String, String> responseHeaders)
+    public Response setHeaders(Hashtable<String, String> responseHeaders)
     {
-        this.responseHeaders = responseHeaders;
+        this.headers = responseHeaders;
         return this;
     }
     
-    public Hashtable<String, String> getResponseHeaders()
+    public Hashtable<String, String> getHeaders()
     {
-        return this.responseHeaders;
+        return this.headers;
     }
     
     public String getBody()

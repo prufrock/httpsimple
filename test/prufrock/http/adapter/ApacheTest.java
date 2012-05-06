@@ -1,6 +1,5 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * A test for the apache adapter
  */
 package prufrock.http.adapter;
 
@@ -71,10 +70,22 @@ public class ApacheTest {
     @Test
     public void testGetStatusCode() 
     {
-        
+
         int expStatusCode     = 200;
         
         assertEquals(expStatusCode
                    , this.request.getResponse().getStatusCode());
-    }    
+    }
+    
+    @Test
+    public void testGetHeader()
+    {
+
+        String expContentType = "text/html; charset=UTF-8";
+        
+        assertEquals( expContentType
+                  , this.request.getResponse().getHeaders().get(
+                    prufrock.http.response.Header.CONTENTTYPE)
+                   );
+    }
 }

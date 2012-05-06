@@ -1,6 +1,5 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * An adapter for the org.apache.http library.
  */
 package prufrock.http.adapter;
 
@@ -9,6 +8,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.ArrayList;
 import java.util.Hashtable;
 import org.apache.http.*;
 import org.apache.http.client.ResponseHandler;
@@ -87,8 +87,12 @@ public class Apache {
                 response.setParams(params);
                 httpexecutor.postProcess(response, httpproc, context);
                 System.out.println("<< Response: " + response.getStatusLine());
-                request.addResponse(response.getStatusLine().getStatusCode(), new Hashtable<String, String>(), EntityUtils.toString(response.getEntity()));
-                //System.out.println(EntityUtils.toString(response.getEntity()));
+                
+                request.addResponse(response.getStatusLine().getStatusCode()
+                                   , this.processHeaders(response.getAllHeaders())
+                                   , EntityUtils.toString(response.getEntity())
+                                   );
+
                 System.out.println("==============");
                 if (!connStrategy.keepAlive(response, context)) {
                     conn.close();
@@ -127,5 +131,17 @@ public class Apache {
 //        }
         System.out.println("httpMethod: " + httpMethod.toString());
         return httpMethod;
-    }    
+    }
+    
+    private Hashtable<String, String> processHeaders(org.apache.http.Header[] headers)
+    {
+        Hashtable processedHeaders = new Hashtable<String, String>();
+        System.out.println("header length: " + headers.length);
+        for(Header header : headers){
+            processedHeaders.put( header.getName()
+                                , header.getValue());
+        }
+
+        return processedHeaders;
+    }
 }
