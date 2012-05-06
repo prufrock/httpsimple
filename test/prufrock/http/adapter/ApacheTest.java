@@ -33,7 +33,7 @@ public class ApacheTest {
     @Before
     public void setUp() 
     {
-        System.out.println("transmitRequest");
+        System.out.println("setUp");
         Apache instance = new Apache();
         
         request.setHost("www.iana.org");
@@ -42,13 +42,14 @@ public class ApacheTest {
         request.getMethod();
         request.setHeaders(new Hashtable<String, String>());
         request.setBody("");
-        Apache result = instance.transmitRequest(request);
+        instance.transmitRequest(request);
     }
 
     @After
     public void tearDown() 
     {
-        
+        System.out.println("tearDown");
+        this.request = new Request();
     }
 
     /**
@@ -57,7 +58,7 @@ public class ApacheTest {
     @Test
     public void testGetBody() 
     {
-        
+        System.out.println("testGetBody");
         int expResponseLength = 2966;
         
         assertEquals( expResponseLength
@@ -70,7 +71,7 @@ public class ApacheTest {
     @Test
     public void testGetStatusCode() 
     {
-
+        System.out.println("testGetStatusCode");
         int expStatusCode     = 200;
         
         assertEquals(expStatusCode
@@ -80,7 +81,7 @@ public class ApacheTest {
     @Test
     public void testGetHeader()
     {
-
+        System.out.println("testGetHeader");
         String expContentType = "text/html; charset=UTF-8";
         
         assertEquals( expContentType

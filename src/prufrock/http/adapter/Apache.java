@@ -33,6 +33,8 @@ import org.apache.http.util.EntityUtils;
  * @author david
  */
 public class Apache {
+    public static final String CONTENTCHARSET = "UTF-8";
+    public static final String USERAGENT      = "HttpComponents/1.1";
     private String body;
     private prufrock.http.Request request;
     public Apache()
@@ -43,20 +45,23 @@ public class Apache {
     public Apache transmitRequest(prufrock.http.Request request)
     {
         try {
-        HttpParams params = new SyncBasicHttpParams();
-        HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
-        HttpProtocolParams.setContentCharset(params, "UTF-8");
-        HttpProtocolParams.setUserAgent(params, "HttpComponents/1.1");
-        HttpProtocolParams.setUseExpectContinue(params, true);
+            HttpParams params = new SyncBasicHttpParams();
+            HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
+            HttpProtocolParams.setContentCharset(params, Apache.CONTENTCHARSET);
+            HttpProtocolParams.setUserAgent(params, Apache.USERAGENT);
+            HttpProtocolParams.setUseExpectContinue(params, true);
 
-        HttpProcessor httpproc = new ImmutableHttpProcessor(new HttpRequestInterceptor[] {
+            HttpProcessor httpproc = new ImmutableHttpProcessor(
+              new HttpRequestInterceptor[] {
                 // Required protocol interceptors
-                new RequestContent(),
-                new RequestTargetHost(),
+                  new RequestContent()
+                , new RequestTargetHost()
                 // Recommended protocol interceptors
-                new RequestConnControl(),
-                new RequestUserAgent(),
-                new RequestExpectContinue()});
+                , new RequestConnControl()
+                , new RequestUserAgent()
+                , new RequestExpectContinue()
+                }
+            );
         
         HttpRequestExecutor httpexecutor = new HttpRequestExecutor();
         
@@ -78,26 +83,21 @@ public class Apache {
                     Socket socket = new Socket(host.getHostName(), host.getPort());
                     conn.bind(socket, params);
                 }
-                BasicHttpRequest httpRequest = new BasicHttpRequest("GET", targets[i]);
-                System.out.println(">> Request URI: " + httpRequest.getRequestLine().getUri());
+                BasicHttpRequest httpRequest = new BasicHttpRequest(request.getMethod(), targets[i]);
                 
                 httpRequest.setParams(params);
                 httpexecutor.preProcess(httpRequest, httpproc, context);
                 HttpResponse response = httpexecutor.execute(httpRequest, conn, context);
                 response.setParams(params);
                 httpexecutor.postProcess(response, httpproc, context);
-                System.out.println("<< Response: " + response.getStatusLine());
                 
                 request.addResponse(response.getStatusLine().getStatusCode()
                                    , this.processHeaders(response.getAllHeaders())
                                    , EntityUtils.toString(response.getEntity())
                                    );
 
-                System.out.println("==============");
                 if (!connStrategy.keepAlive(response, context)) {
                     conn.close();
-                } else {
-                    System.out.println("Connection kept alive...");
                 }
             }
         }   catch (UnknownHostException ex) {
@@ -116,7 +116,7 @@ public class Apache {
     private Hashtable<String, String> processHeaders(org.apache.http.Header[] headers)
     {
         Hashtable processedHeaders = new Hashtable<String, String>();
-        System.out.println("header length: " + headers.length);
+
         for(Header header : headers){
             processedHeaders.put( header.getName()
                                 , header.getValue());
