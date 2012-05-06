@@ -9,6 +9,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.Hashtable;
 import org.apache.http.*;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.impl.client.BasicResponseHandler;
@@ -86,7 +87,7 @@ public class Apache {
                 response.setParams(params);
                 httpexecutor.postProcess(response, httpproc, context);
                 System.out.println("<< Response: " + response.getStatusLine());
-                request.setBody(EntityUtils.toString(response.getEntity()));
+                request.addResponse(200, new Hashtable<String, String>(), EntityUtils.toString(response.getEntity()));
                 //System.out.println(EntityUtils.toString(response.getEntity()));
                 System.out.println("==============");
                 if (!connStrategy.keepAlive(response, context)) {

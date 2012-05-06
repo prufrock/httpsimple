@@ -53,6 +53,6 @@ public class ApacheTest {
         Apache result = instance.transmitRequest(request);
 
         assertEquals(expResult, result);
-        assertEquals(expResponseLength, request.getBody().length());
+        assertEquals(expResponseLength, request.getResponse().getBody().length());
     }
 }
