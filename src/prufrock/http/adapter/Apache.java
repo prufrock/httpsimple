@@ -113,26 +113,6 @@ public class Apache {
         return this;
     }
     
-    private HttpUriRequest getHttpMethod(String method, String url, String body)
-    {
-        System.out.println("getHttpMethod method: ");
-        HttpUriRequest httpMethod = new HttpGet(url);
-//        if(method.compareTo("post") == 0){
-//            HttpPost post = new HttpPost(url);
-//            System.out.println("httpPost: " + post.toString());
-//            
-//            try {
-//                post.setEntity(new StringEntity(body));
-///                httpMethod = (HttpUriRequest)post;
-//                httpMethod.setHeader("Content-Type", "application/json");
-//            } catch( Exception e){
-//                System.out.println("getHttpMethod error: " + e.getStackTrace());
-//            }
-//        }
-        System.out.println("httpMethod: " + httpMethod.toString());
-        return httpMethod;
-    }
-    
     private Hashtable<String, String> processHeaders(org.apache.http.Header[] headers)
     {
         Hashtable processedHeaders = new Hashtable<String, String>();
