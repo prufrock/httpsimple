@@ -87,7 +87,7 @@ public class Apache {
                 response.setParams(params);
                 httpexecutor.postProcess(response, httpproc, context);
                 System.out.println("<< Response: " + response.getStatusLine());
-                request.addResponse(200, new Hashtable<String, String>(), EntityUtils.toString(response.getEntity()));
+                request.addResponse(response.getStatusLine().getStatusCode(), new Hashtable<String, String>(), EntityUtils.toString(response.getEntity()));
                 //System.out.println(EntityUtils.toString(response.getEntity()));
                 System.out.println("==============");
                 if (!connStrategy.keepAlive(response, context)) {

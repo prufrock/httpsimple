@@ -15,35 +15,28 @@ import java.util.Hashtable;
  */
 public class ApacheTest {
 
-    public ApacheTest() {
+    private Request request;
+    public ApacheTest() 
+    {
+        this.request = new Request();
     }
 
     @BeforeClass
-    public static void setUpClass() throws Exception {
+    public static void setUpClass() throws Exception 
+    {
     }
 
     @AfterClass
-    public static void tearDownClass() throws Exception {
+    public static void tearDownClass() throws Exception 
+    {
     }
 
     @Before
-    public void setUp() {
-    }
-
-    @After
-    public void tearDown() {
-    }
-
-    /**
-     * Test of transmitRequest method, of class Apache.
-     */
-    @Test
-    public void testTransmitRequest() {
+    public void setUp() 
+    {
         System.out.println("transmitRequest");
         Apache instance = new Apache();
-        Apache expResult = instance;
-        int expResponseLength = 2966;
-        Request request = new Request();
+        
         request.setHost("www.iana.org");
         request.setUrl("/domains/example/index.html");
         request.setMethod(Request.HTTP_GET);
@@ -51,8 +44,37 @@ public class ApacheTest {
         request.setHeaders(new Hashtable<String, String>());
         request.setBody("");
         Apache result = instance.transmitRequest(request);
-
-        assertEquals(expResult, result);
-        assertEquals(expResponseLength, request.getResponse().getBody().length());
     }
+
+    @After
+    public void tearDown() 
+    {
+        
+    }
+
+    /**
+     * Test of getBody on the response set by the Apache object.
+     */
+    @Test
+    public void testGetBody() 
+    {
+        
+        int expResponseLength = 2966;
+        
+        assertEquals( expResponseLength
+                  , this.request.getResponse().getBody().length());;
+    }
+    
+    /**
+     * Test of getStatusCode on the response set by the Apache object.
+     */
+    @Test
+    public void testGetStatusCode() 
+    {
+        
+        int expStatusCode     = 200;
+        
+        assertEquals(expStatusCode
+                   , this.request.getResponse().getStatusCode());
+    }    
 }
